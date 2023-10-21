@@ -1,0 +1,20 @@
+{
+"objects" : [
+{
+"spawn_position":"5,3,1",
+"object_name":"cube3",
+"object_scale":"2,2,2"
+
+},
+{
+"spawn_position":"2,3,1",
+"object_name":"cube4",
+"object_scale":"2,2,2"
+},
+{
+"spawn_position":"8,3,1",
+"object_name":"cube5",
+"object_scale":"2,2,2"
+}
+]
+}
