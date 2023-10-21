@@ -4,7 +4,7 @@ Coded By     : Waqas Kureshy
 Date         : 2023-09-21
 Updated By   :
 Date         :
-Version      : v 0.0.7
+Version      : v 0.0.8
 Copyright    : Copyright (c) 2023 Waqas Kureshy
 Purpose      : Establish a connection using sockets, used for placing objects, placing text and transferring webcam feed
                to Unity
@@ -20,14 +20,14 @@ import cv2
 import json
 
 
+CONNECTION_STRING="tcp://127.0.0.1:5555"
 
 
-
-def placeObject():
+def placeObject(conn_string):
     '''Function to place an obect in the Unity environment by taking in user input'''
     context = zmq.Context()
     publisher = context.socket(zmq.PUB)
-    publisher.bind("tcp://127.0.0.1:5555")
+    publisher.bind(conn_string)
 
     object_name=input("Enter object name: ")
     if object_name == "":
@@ -66,17 +66,11 @@ def placeObject():
     context.term()
 
 
-def placeObjectWithJson():
+def placeObjectWithJson(conn_string):
     '''Function to place an obect in the Unity environment using input from json file'''
     context = zmq.Context()
     publisher = context.socket(zmq.PUB)
-    publisher.bind("tcp://127.0.0.1:5555")
-
-    # read_json=open('data.json','r')
-    # data=json.loads(read_json.read())
-    # for i in data['objects']:
-    #     print(i)
-
+    publisher.bind(conn_string)
 
     file_path = input("Enter the path to the JSON file: ")
     read_json=open(file_path,'r')
@@ -99,48 +93,15 @@ def placeObjectWithJson():
     else:
         print("Invalid file path or the file does not contain valid JSON data.")
 
-    # object_name=input("Enter object name: ")
-    # if object_name == "":
-    #     print("Invalid object name")
-    #     return
-    # spawn_position_input = input("Enter spawn position (x,y,z), separated by commas: ")
-    # spawn_position_values = spawn_position_input.split(',')
-    # if len(spawn_position_values) == 3:
-    #     try:
-    #         x_coord, y_coord, z_coord = map(float, spawn_position_values)
-    #         print("Valid spawn position:", x_coord, y_coord, z_coord)
-    #     except ValueError:
-    #         print("Invalid input. All three values must be numbers.")
-    #         return
-    # else:
-    #     print("Invalid input format. Enter three values separated by commas (x,y,z).")
-    #     return
-
-    # scale_input = input("Enter scale (h,w,l), separated by commas: ")
-    # scale_input_values = scale_input.split(',')
-    # if len(scale_input_values) == 3:
-    #     try:
-    #         cube_height, cube_width, cube_length = map(float, scale_input_values)
-    #         print("Valid scale:", cube_height, cube_width, cube_length)
-    #     except ValueError:
-    #         print("Invalid input. All three values must be numbers.")
-    #         return
-    # else:
-    #     print("Invalid input format. Enter three values separated by commas (h,w,l).")
-    #     return
+    publisher.close()
+    context.term()
 
 
-    # message = f"ai_vr createcube {spawn_position_input} {scale_input} {object_name}"
-    # publisher.send_string(message)
-    # publisher.close()
-    # context.term()
-
-
-def placeText():
+def placeText(conn_string):
     '''Function to place Text in the Unity environment by taking in user input'''
     context = zmq.Context()
     publisher = context.socket(zmq.PUB)
-    publisher.bind("tcp://127.0.0.1:5555")
+    publisher.bind(conn_string)
 
     text_spawn_position_input = input("Enter text spawn position (x,y,z), separated by commas: ")
     text_spawn_position_values = text_spawn_position_input.split(',')
