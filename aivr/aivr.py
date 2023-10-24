@@ -4,7 +4,7 @@ Coded By     : Waqas Kureshy
 Date         : 2023-09-21
 Updated By   :
 Date         :
-Version      : v 0.0.8
+Version      : v 0.0.9
 Copyright    : Copyright (c) 2023 Waqas Kureshy
 Purpose      : Establish a connection using sockets, used for placing objects, placing text and transferring webcam feed
                to Unity
@@ -21,13 +21,36 @@ import json
 
 
 CONNECTION_STRING="tcp://127.0.0.1:5555"
+RED = (1, 0, 0)
+GREEN = (0, 1, 0)
+BLUE = (0, 0, 1)
+YELLOW = (1, 1, 0)
+MAGENTA = (1, 0, 1)
+CYAN = (0, 1, 1)
+BLACK = (0, 0, 0)
+WHITE = (1, 1, 1)
+
+def colorChecker(color_tuple):
+    if not isinstance(color_tuple, tuple) or len(color_tuple) != 3:
+        raise ValueError("Input must be a tuple of three digits between 0 and 1.")
+
+    for value in color_tuple:
+        if not isinstance(value, (int, float)) or value < 0 or value > 1:
+            raise ValueError("Each value in the tuple must be a digit between 0 and 1.")
+
+    result_string = ",".join(map(str, color_tuple))
+
+    return result_string
 
 
-def placeObject(conn_string):
+def placeObject(conn_string, color=RED):
     '''Function to place an obect in the Unity environment by taking in user input'''
     context = zmq.Context()
     publisher = context.socket(zmq.PUB)
     publisher.bind(conn_string)
+
+    print(f"COLOR: {color}")
+    objectColor=colorChecker(color)
 
     object_name=input("Enter object name: ")
     if object_name == "":
@@ -60,7 +83,7 @@ def placeObject(conn_string):
         return
 
 
-    message = f"ai_vr createcube {spawn_position_input} {scale_input} {object_name}"
+    message = f"ai_vr createcube {spawn_position_input} {scale_input} {object_name} {objectColor}"
     publisher.send_string(message)
     publisher.close()
     context.term()
@@ -80,13 +103,54 @@ def placeObjectWithJson(conn_string):
             objects = data["objects"]
             print("Objects in the JSON file:")
             for obj in objects:
-                spawn_position = obj["spawn_position"]
                 object_name = obj["object_name"]
+                if object_name== "" or None:
+                    print(f"Invalid object name found")
+                    return
+                spawn_position = obj["spawn_position"]
+                spawn_position_values = spawn_position.split(',')
+                if len(spawn_position_values) == 3:
+                    try:
+                        x_coord, y_coord, z_coord = map(float, spawn_position_values)
+                        print("Valid spawn position:", x_coord, y_coord, z_coord)
+                    except ValueError:
+                        print("Invalid input. All three values must be numbers.")
+                        return
+                else:
+                    print(f"Invalid input format {spawn_position} for object named: '{object_name}'. Enter three values separated by commas (x,y,z).")
+                    return
+                
                 object_scale = obj["object_scale"]
+                object_scale_values = object_scale.split(',')
+                if len(object_scale_values) == 3:
+                    try:
+                        cube_height, cube_width, cube_length = map(float, object_scale_values)
+                        print("Valid scale:", cube_height, cube_width, cube_length)
+                    except ValueError:
+                        print("Invalid input. All three values must be numbers.")
+                        return
+                else:
+                    print(f"Invalid input format for object name: {object_name}. Enter three values separated by commas (h,w,l).")
+                    return
+
+                object_color = obj["object_color"]
+                object_color_values = object_color.split(',')
+                if len(object_color_values) == 3:
+                    try:
+                        r, g, b = map(float, object_color_values)
+                        if 0 <= r <= 1 and 0 <= g <= 1 and 0 <= b <= 1:
+                            print("Valid color:", r, g, b)
+                        else:
+                            print("Invalid input. All three values must be between 0 and 1.")
+                    except ValueError:
+                        print("Invalid input. All three values must be numbers.")
+                else:
+                    print(f"Invalid input format {object_color} for object named: '{object_name}'. Enter three values separated by commas (R,G,B).")
                 print(f"Object Name: {object_name}")
                 print(f"Spawn Position: {spawn_position}")
                 print(f"Object Scale: {object_scale}")
-                message = f"ai_vr createcube {spawn_position} {object_scale} {object_name}"
+                print(f"Object Color: {object_color}")
+                message = f"ai_vr createcube {spawn_position} {object_scale} {object_name} {object_color}"
                 publisher.send_string(message)
         else:
             print("No 'objects' key found in the JSON data.")
@@ -199,3 +263,6 @@ def getCam():
     print("End time:" + datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
     socket.close()
     context.term()
+
+# def colorTest(color=RED):
+#     print(f"Color is {color}")
