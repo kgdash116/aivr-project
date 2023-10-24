@@ -49,7 +49,7 @@ python3 -m pip install YOUR-PATH/aivr-project
 - Assuming the **aivr package** has been installed using the above mentioned steps, we can access the **aivr** package in our python scripts, by simply importing it.
 - For demo purposes, open Terminal and type in:
     ```
-    python
+    python3
     ```
 - A Python interpreter will open up. To import the aivr package, type in the following command:
     ```
@@ -59,10 +59,11 @@ python3 -m pip install YOUR-PATH/aivr-project
 - Now methods of the aivr module can be utilised.
 - For example, to make a cube in the Unity environment, type in the following command:
     ```
-    aivr.placeObject()
+    aivr.placeObject(aivr.CONNECTION_STRING,aivr.GREEN)
     ```
 - When this is executed, a prompt appears which asks the user to input the coordinates where the cube is to be placed and so forth.
 - **Integration with Unity**: Assuming, Unity is installed, open the Unity environment and open the project named:
+
     ```
     Python-OpenCV-2022-2-16
     ```
