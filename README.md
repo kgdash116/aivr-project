@@ -72,7 +72,7 @@ python3 -m pip install YOUR-PATH/aivr-project
 
 ## Methods:
 
-- The following methods are in the aivr module, method names along with their description are given below:
+- The following methods are in the aivr module,method names along with their description are given below:
 
 | Method        | Description           |
 | ------------- |:-------------:|
