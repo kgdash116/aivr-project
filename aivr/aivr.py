@@ -264,5 +264,5 @@ def getCam():
     socket.close()
     context.term()
 
-# def colorTest(color=RED):
-#     print(f"Color is {color}")
+
+
