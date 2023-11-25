@@ -18,7 +18,10 @@ import sys
 import zmq
 import cv2
 import json
-
+import base64
+import time
+import os
+import threading
 
 CONNECTION_STRING="tcp://127.0.0.1:5555"
 RED = (1, 0, 0)
@@ -29,6 +32,67 @@ MAGENTA = (1, 0, 1)
 CYAN = (0, 1, 1)
 BLACK = (0, 0, 0)
 WHITE = (1, 1, 1)
+
+webcam_controller = None
+
+class WebcamController:
+    def __init__(self):
+        self.context = zmq.Context()
+        self.socket = self.context.socket(zmq.PUB)
+        self.socket.bind("tcp://127.0.0.1:5556")
+        self.cap = None
+        self.webcam_thread = None
+        self.is_webcam_on = False
+
+    def toggle_webcam(self):
+        if self.is_webcam_on:
+            # Stop the webcam
+            self.is_webcam_on = False
+            self.socket.send(b'STOP')
+
+            if self.webcam_thread and self.webcam_thread.is_alive():
+                self.webcam_thread.join()
+
+            if self.cap and self.cap.isOpened():
+                self.cap.release()
+                cv2.destroyAllWindows()
+
+            print("Webcam stopped.")
+        else:
+            # Start the webcam
+            self.is_webcam_on = True
+            self.webcam_thread = threading.Thread(target=self._toggle_webcam_on, daemon=True)
+            self.webcam_thread.start()
+            print("Webcam started.")
+
+    def _toggle_webcam_on(self):
+        self.cap = cv2.VideoCapture(0)
+
+        if not self.cap.isOpened():
+            print("Error: Webcam not detected or could not be opened.")
+            return
+
+        try:
+            while self.is_webcam_on:
+                ret, frame = self.cap.read()
+
+                if not ret:
+                    print("Error: Unable to capture frame.")
+                    continue
+
+                _, buffer = cv2.imencode('.jpg', frame)
+                self.socket.send(buffer.tobytes())
+
+        except KeyboardInterrupt:
+            self.socket.send(b'STOP')
+            print("Terminating webcam frame sender.")
+
+        finally:
+            self.cap.release()
+            cv2.destroyAllWindows()
+
+
+
 
 def colorChecker(color_tuple):
     if not isinstance(color_tuple, tuple) or len(color_tuple) != 3:
@@ -202,7 +266,7 @@ def getCam():
     window_width = 640
     window_height = 360
     gray_scale_enabled=False
-
+    is_web_cam_enabeled=True
 
     context = zmq.Context()
     socket = context.socket(zmq.ROUTER)
@@ -221,7 +285,7 @@ def getCam():
         sys.exit()
 
 
-    while True:
+    while (is_web_cam_enabeled):
 
         identity, message = socket.recv_multipart()
         #print(message)
@@ -246,23 +310,193 @@ def getCam():
         except Exception as e:
             print("Error sending image:", str(e))
             break
+        # except KeyboardInterrupt:
+        #     print("Terminating webcam frame sender.")
+        #     cam.release()
+        #     cv2.destroyAllWindows()
 
 
         cv2.imshow("OpenCVWindow", resized_image)
         key = cv2.waitKey(1) & 0xFF
         if key == ord("q"):
-            cam.release()
-            cv2.destroyAllWindows()
+            is_web_cam_enabeled=False
             break
         if key == ord("g"):
             gray_scale_enabled = not gray_scale_enabled
 
 
 
-
+    cam.release()
+    cv2.destroyAllWindows()
     print("End time:" + datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
     socket.close()
     context.term()
 
+# def getCam():
+#     context = zmq.Context()
+#     socket = context.socket(zmq.PUB)
+#     socket.bind("tcp://127.0.0.1:5556")
+
+#     cap = cv2.VideoCapture(0)
+
+#     if not cap.isOpened():
+#         print("Error: Webcam not detected or could not be opened.")
+#         return
+
+#     try:
+#         while True:
+#             ret, frame = cap.read()
+
+#             if not ret:
+#                 print("Error: Unable to capture frame.")
+#                 continue
+
+#             _, buffer = cv2.imencode('.jpg', frame)
+#             #jpg_as_text = base64.b64encode(buffer)
+
+#             socket.send(buffer.tobytes())
+
+#     except KeyboardInterrupt:
+#         print("Terminating webcam frame sender.")
+
+#     finally:
+#         cap.release()
+#         cv2.destroyAllWindows()
+
+#--------------------------------------------------------------
+# def toggleWebcamOn():
+#     context = zmq.Context()
+#     socket = context.socket(zmq.PUB)
+#     socket.bind("tcp://127.0.0.1:5556")
+
+#     cap = cv2.VideoCapture(0)
+
+#     if not cap.isOpened():
+#         print("Error: Webcam not detected or could not be opened.")
+#         return
+
+#     try:
+#         while True:
+#             ret, frame = cap.read()
+
+#             if not ret:
+#                 print("Error: Unable to capture frame.")
+#                 continue
+
+#             _, buffer = cv2.imencode('.jpg', frame)
+#             #jpg_as_text = base64.b64encode(buffer)
+
+#             #Disabling the opencv window popup as when this the package is 
+#             #ran from shell and then closed the opencv window still lingers 
+#             #around and freezes
+            
+#             #cv2.imshow("OpenCVWindow", frame)
+#             #if cv2.waitKey(1) & 0xFF == ord('q'):
+#             #    break
+            
+#             socket.send(buffer.tobytes())
+
+#     except KeyboardInterrupt:
+#         print("Terminating webcam frame sender.")
+#         return
+
+#     finally:
+#         cap.release()
+#         cv2.destroyAllWindows()
+#         socket.close()
+#         context.term()
+
+#--------------------------------------------------------------
+
+def toggleWebcamOn():
+    context = zmq.Context()
+    socket = context.socket(zmq.PUB)
+    socket.bind("tcp://127.0.0.1:5556")
+
+    cap = cv2.VideoCapture(0)
+
+    if not cap.isOpened():
+        print("Error: Webcam not detected or could not be opened.")
+        return
+
+    try:
+        while True:
+            ret, frame = cap.read()
+
+            if not ret:
+                print("Error: Unable to capture frame.")
+                continue
+
+            _, buffer = cv2.imencode('.jpg', frame)
+            #jpg_as_text = base64.b64encode(buffer)
+
+            # cv2.imshow("OpenCVWindow", frame)
+            # if cv2.waitKey(1) & 0xFF == ord('q'):
+            #     break
+            socket.send(buffer.tobytes())
+
+    except KeyboardInterrupt:
+        socket.send(b'STOP')
+        print("Terminating webcam frame sender.")
+
+    finally:
+        cap.release()
+        cv2.destroyAllWindows()
+
+def getCams():
+    webcam_thread = threading.Thread(target=toggleWebcamOn, daemon=True)
+    webcam_thread.start()
+    # global webcam_controller
+    # if (webcam_controller== None):
+    #     webcam_controller=WebcamController()
+    #     webcam_controller.toggle_webcam()
+    # else:
+    #     webcam_controller.toggle_webcam()
 
 
+def sendVidLink(conn_string):
+    context = zmq.Context()
+    socket = context.socket(zmq.PUB)
+    socket.bind(conn_string)
+    file_path=input("Enter File Path: ")
+    if os.path.exists(file_path):
+        print(f"The file at {file_path} exists.")
+    else:
+        print(f"The file at {file_path} does not exist.")
+    spawn_position_input = input("Enter spawn position (x,y,z), separated by commas: ")
+    spawn_position_values = spawn_position_input.split(',')
+    if len(spawn_position_values) == 3:
+        try:
+            x_coord, y_coord, z_coord = map(float, spawn_position_values)
+            print("Valid spawn position:", x_coord, y_coord, z_coord)
+        except ValueError:
+            print("Invalid input. All three values must be numbers.")
+            return
+    else:
+        print("Invalid input format. Enter three values separated by commas (x,y,z).")
+        return
+
+    scale_input = input("Enter scale (h,w,l), separated by commas: ")
+    scale_input_values = scale_input.split(',')
+    if len(scale_input_values) == 3:
+        try:
+            cube_height, cube_width, cube_length = map(float, scale_input_values)
+            print("Valid scale:", cube_height, cube_width, cube_length)
+        except ValueError:
+            print("Invalid input. All three values must be numbers.")
+            return
+    else:
+        print("Invalid input format. Enter three values separated by commas (h,w,l).")
+        return
+
+    try:
+        #time.sleep(3)
+        print("Sending String")
+        message = f"ai_vr launch_video {spawn_position_input} {scale_input} {file_path}"
+        #message = "ai_vr /Users/waqaskureshy/Pictures/test_videos/test_2.mp4"
+        socket.send_string(message)
+        #time.sleep(3)
+    finally:
+        # Close the socket and terminate the context after sending the message
+        socket.close()
+        context.term()
