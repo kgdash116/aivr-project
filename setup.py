@@ -5,7 +5,7 @@ with open("README.md","r") as readme_file:
 
 setup(
     name="aivr",
-    version="0.0.9",
+    version="0.0.10",
     description="Python package that integrates with Unity and provides helpful functions for users",
     long_description=long_description,
     long_description_content_type="text/markdown",

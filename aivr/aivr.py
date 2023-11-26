@@ -4,7 +4,7 @@ Coded By     : Waqas Kureshy
 Date         : 2023-09-21
 Updated By   :
 Date         :
-Version      : v 0.0.9
+Version      : v 0.0.10
 Copyright    : Copyright (c) 2023 Waqas Kureshy
 Purpose      : Establish a connection using sockets, used for placing objects, placing text and transferring webcam feed
                to Unity
@@ -48,7 +48,7 @@ class WebcamController:
         if self.is_webcam_on:
             # Stop the webcam
             self.is_webcam_on = False
-            self.socket.send(b'STOP')
+            #self.socket.send(b'STOP')
 
             if self.webcam_thread and self.webcam_thread.is_alive():
                 self.webcam_thread.join()
@@ -225,12 +225,14 @@ def placeObjectWithJson(conn_string):
     context.term()
 
 
-def placeText(conn_string):
+def placeText(conn_string, color=RED):
     '''Function to place Text in the Unity environment by taking in user input'''
     context = zmq.Context()
     publisher = context.socket(zmq.PUB)
     publisher.bind(conn_string)
 
+    print(f"COLOR: {color}")
+    textColor=colorChecker(color)
     text_spawn_position_input = input("Enter text spawn position (x,y,z), separated by commas: ")
     text_spawn_position_values = text_spawn_position_input.split(',')
     if len(text_spawn_position_values) == 3:
@@ -254,7 +256,7 @@ def placeText(conn_string):
     text_to_display = input("Enter Text to display: ")
 
 
-    message = f"ai_vr text_addition {x_pos} {y_pos} {z_pos} {font_size} {text_to_display}"
+    message = f"ai_vr text_addition {x_pos} {y_pos} {z_pos} {font_size} {textColor} {text_to_display}"
     publisher.send_string(message)
     publisher.close()
     context.term()
@@ -444,14 +446,14 @@ def toggleWebcamOn():
         cv2.destroyAllWindows()
 
 def getCams():
-    webcam_thread = threading.Thread(target=toggleWebcamOn, daemon=True)
-    webcam_thread.start()
-    # global webcam_controller
-    # if (webcam_controller== None):
-    #     webcam_controller=WebcamController()
-    #     webcam_controller.toggle_webcam()
-    # else:
-    #     webcam_controller.toggle_webcam()
+    # webcam_thread = threading.Thread(target=toggleWebcamOn, daemon=True)
+    # webcam_thread.start()
+    global webcam_controller
+    if (webcam_controller== None):
+        webcam_controller=WebcamController()
+        webcam_controller.toggle_webcam()
+    else:
+        webcam_controller.toggle_webcam()
 
 
 def sendVidLink(conn_string):
