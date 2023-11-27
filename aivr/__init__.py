@@ -4,9 +4,9 @@ __author__ = 'Waqas Kureshy'
 __license__ = 'MIT'
 
 from .aivr import placeObject
+from .aivr import placeSphere
 from .aivr import placeText
-from .aivr import getCam
-from .aivr import getCams
+from .aivr import toggleWebcamFeed
 from .aivr import placeObjectWithJson
 from .aivr import CONNECTION_STRING
 from .aivr import RED 
@@ -18,6 +18,5 @@ from .aivr import CYAN
 from .aivr import BLACK 
 from .aivr import WHITE
 from .aivr import colorChecker 
-from .aivr import toggleWebcamOn
 from .aivr import sendVidLink
-
+from .aivr import switchColorMode
