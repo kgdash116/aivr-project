@@ -1,4 +1,5 @@
 import aivr
+import aivr_webcam
 
 def main():
     print("This is the AIVR package, it has helpful modules that use sockets to communicate with the Unity environment.")

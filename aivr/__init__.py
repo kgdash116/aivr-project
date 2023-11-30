@@ -1,10 +1,13 @@
 
-__version__ = '0.0.10'
+__version__ = '0.1.1'
 __author__ = 'Waqas Kureshy'
 __license__ = 'MIT'
 
-from .aivr import placeObject
+from .aivr import placeCube
 from .aivr import placeSphere
+from .aivr import placeCylinder
+from .aivr import placePlane
+from .aivr import placeQuad
 from .aivr import placeText
 from .aivr import toggleWebcamFeed
 from .aivr import placeObjectWithJson
@@ -20,3 +23,5 @@ from .aivr import WHITE
 from .aivr import colorChecker 
 from .aivr import sendVidLink
 from .aivr import switchColorMode
+from .aivr import placeCapsule
+from .aivr_webcam import WebcamController
