@@ -3,9 +3,16 @@ A Python Package that integrates with the Unity environment. This package, allow
 
 ## Table of Contents
 
+- [Team](#team)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Methods](#methods)
+
+
+## Team
+
+Meet the team mebers involved in fabricating the AIVR open-source package
+
 
 
 ## Installation
