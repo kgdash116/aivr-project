@@ -4,6 +4,7 @@ A Python Package that integrates with the Unity environment. This package, allow
 ## Table of Contents
 
 - [Team](#team)
+- [Package](#package)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Methods](#methods)
@@ -20,7 +21,40 @@ Waqas Kureshy | <img src="https://github.com/kgdash116.png" width="100" height="
 Prabjyot Obhi |  | Team Member | 
 
 
+## Package
 
+<pre>
+  .
+├── LICENSE
+├── README.md
+├── aivr
+│   ├── __init__.py
+│   ├── __main__.py
+│   ├── __pycache__
+│   ├── aivr.py
+│   ├── aivr_webcam.py
+│   └── data.json
+├── aivr.egg-info
+│   ├── PKG-INFO
+│   ├── SOURCES.txt
+│   ├── dependency_links.txt
+│   ├── requires.txt
+│   └── top_level.txt
+├── aivr_v1
+├── build
+│   ├── bdist.macosx-10.9-universal2
+│   ├── bdist.win-amd64
+│   └── lib
+├── env
+│   ├── Include
+│   ├── Lib
+│   ├── Scripts
+│   └── pyvenv.cfg
+├── requirements.txt
+├── setup.cfg
+└── setup.py
+
+</pre>
 
 ## Installation
 - The following instructions are for using the **aivr** package locally.
