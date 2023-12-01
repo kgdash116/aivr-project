@@ -140,6 +140,8 @@ python3 -m pip install YOUR-PATH/aivr-project
 | _object_scale_checker(obj_scale) | <ul><li>Private helper function to check the validity of user-entered scale for objects.</li></ul>|
 | _object_rotation_checker(obj_rot) | <ul><li>Private helper function to check the validity of user-entered rotation for objects.</li><li>This function returns a default value if the input is wrong or it returns the user input.</li></ul>|
 
+## Note
+A sample data.json file has been provided that works with the `placeObjectWithJson()` function inside the aivr folder.
 
 
 
