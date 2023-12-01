@@ -79,7 +79,7 @@ Prabjyot Obhi |  | Team Member |
   ```
 - Next, to install the package, type in the following command:
   ```
-  python3 -m pip install -e .     
+  python3 -m pip install .     
 
   ```
 - Now the package is installed on your local machine.
@@ -89,7 +89,7 @@ Prabjyot Obhi |  | Team Member |
 - Type in the following command, and change the YOUR-PATH segment to wherever the **aivr-project** folder is located
 
 ```
-python3 -m pip install YOUR-PATH/aivr-project
+python3 -m pip install YOUR-PATH/aivr-project .
 ```
 
 ## Usage
