@@ -113,6 +113,16 @@ python3 -m pip install YOUR-PATH/aivr-project .
   <img src="https://github.com/kgdash116/aivr-project/blob/main/Images/aivrwebcamflowchart.png?raw=true">
 </p>
 
+This component of the AIVR package is used for sending camera 
+streaming data to Unity. This component is controlled by the WebController class, and is ran on an 
+independent daemon thread. This operation is controlled through the toggleWebcamFeed( ) 
+method which in turn, creates an object of the WebController class and runs it on a background 
+thread. The camera output display i.e. ON/OFF control is conducted through the same function. 
+Furthermore, the AIVR package has support for toggling the camera color mode transmission i.e. 
+frames can be either in Grayscale or R, G, B format. The flowchart below illustrates the 
+functioning of the camera input feed handled through the AIVR package, paired up with its Unity
+counterpart module.
+
 ## Usage
 
 - Assuming the **aivr package** has been installed using the above mentioned steps, we can access the **aivr** package in our python scripts, by simply importing it.
