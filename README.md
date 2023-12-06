@@ -97,11 +97,21 @@ python3 -m pip install YOUR-PATH/aivr-project .
 
 ### Placing Objects
 
+<p align="center">
+  <img width="460" height="300" src="https://picsum.photos/460/300">
+</p>
 
 ### Placing Text
 
+<p align="center">
+  <img width="460" height="300" src="https://picsum.photos/460/300">
+</p>
 
 ### Sharing Camera Feed
+
+<p align="center">
+  <img width="460" height="300" src="https://picsum.photos/460/300">
+</p>
 
 ## Usage
 
