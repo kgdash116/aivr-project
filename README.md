@@ -34,18 +34,9 @@ Prabjyot Obhi |  | Team Member |
 │   ├── __pycache__
 │   ├── aivr.py
 │   ├── aivr_webcam.py
-│   └── data.json
-├── aivr.egg-info
-│   ├── PKG-INFO
-│   ├── SOURCES.txt
-│   ├── dependency_links.txt
-│   ├── requires.txt
-│   └── top_level.txt
+│   └── data.json 
+│   
 ├── aivr_v1
-├── build
-│   ├── bdist.macosx-10.9-universal2
-│   ├── bdist.win-amd64
-│   └── lib
 ├── env
 │   ├── Include
 │   ├── Lib
