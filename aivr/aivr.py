@@ -85,7 +85,7 @@ def _object_scale_checker(obj_scale):
 
 def _object_rotation_checker(obj_rot):
     '''Private helper function to check the validity of user entered rotation for objects.'''
-    '''This function returns a Boolean value'''
+    '''This function returns a default value if input is wrong or it returns the user input'''
     rotation_input_values = obj_rot.split(',')
     if len(rotation_input_values) == 3:
         try:
