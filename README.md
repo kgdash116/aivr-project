@@ -6,6 +6,7 @@ Introducing AIVR, a comprehensive Python package that seamlessly amalgamates the
 - [Team](#team)
 - [Package](#package)
 - [Installation](#installation)
+- [Concept](#concept)
 - [Usage](#usage)
 - [Methods](#methods)
 
@@ -91,6 +92,16 @@ Prabjyot Obhi |  | Team Member |
 ```
 python3 -m pip install YOUR-PATH/aivr-project .
 ```
+
+## Concept
+
+### Placing Objects
+
+
+### Placing Text
+
+
+### Sharing Camera Feed
 
 ## Usage
 
