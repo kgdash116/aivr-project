@@ -101,11 +101,20 @@ python3 -m pip install YOUR-PATH/aivr-project .
   <img src="https://github.com/kgdash116/aivr-project/blob/main/Images/placeObject%20flow%20diagram%20with%20border.drawio.png?raw=true">
 </p>
 
+The AIVR package offers functionality to create all Unity related 3-Dimensional Game Objects through independent methods. These methods run on independent socket connections following the Pub-Sub design pattern. The list of objects includes Sphere, Cube, Capsule, Quad, Plane and Cylinder.
+
 ### Placing Text
 
 <p align="center">
   <img src="https://github.com/kgdash116/aivr-project/blob/main/Images/placeText%20flow%20diagram.drawio.png?raw=true">
 </p>
+
+AIVR package supports adding text on Unity, with complete control over its 
+attributes which are related to spawn position, text font size, text color etc. This operation is also 
+conducted using the Publisher-Subscriber Socket configuration, where AIVR assumes the
+Publisher connection and Unity’s text handler binds itself with the AIVR package as a Subscriber, 
+subscribed to the “aivr” topic. This operation runs on an independent connection. The flow 
+diagram below illustrates this operation.
 
 ### Sharing Camera Feed
 
