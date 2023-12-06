@@ -98,19 +98,19 @@ python3 -m pip install YOUR-PATH/aivr-project .
 ### Placing Objects
 
 <p align="center">
-  <img width="460" height="300" src="https://picsum.photos/460/300">
+  <img src="https://github.com/kgdash116/aivr-project/blob/main/Images/placeObject%20flow%20diagram%20with%20border.drawio.png?raw=true">
 </p>
 
 ### Placing Text
 
 <p align="center">
-  <img width="460" height="300" src="https://picsum.photos/460/300">
+  <img src="https://github.com/kgdash116/aivr-project/blob/main/Images/placeText%20flow%20diagram.drawio.png?raw=true">
 </p>
 
 ### Sharing Camera Feed
 
 <p align="center">
-  <img width="460" height="300" src="https://picsum.photos/460/300">
+  <img src="https://github.com/kgdash116/aivr-project/blob/main/Images/aivrwebcamflowchart.png?raw=true">
 </p>
 
 ## Usage
