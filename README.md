@@ -59,7 +59,7 @@ Prabjyot Obhi |  | Team Member |
 
 The above image represents the directory structure for the aivr package.
 
-<p align="center"> <img src="https://github.com/kgdash116/aivr-project/blob/main/Images/aivr%20package.png?raw=true" width="60" height="100"> </p>
+<p align="center"> <img src="https://github.com/kgdash116/aivr-project/blob/main/Images/aivr%20package.png?raw=true" width="300" height="400"> </p>
 
 ## Installation
 - The following instructions are for using the **aivr** package locally.
