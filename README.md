@@ -50,7 +50,7 @@ Prabjyot Obhi |  | Team Member |
 
 The above image represents the directory structure for the aivr package.
 
-<p align="center"> <img src="https://github.com/kgdash116/aivr-project/blob/main/Images/AIVR%20poackage%20colored%20diagram%20only.png?raw=true" width="400" height="500"> </p>
+<p align="center"> <img src="https://github.com/kgdash116/aivr-project/blob/main/Images/AIVR%20Python%20package%20diagram%20ALT%20colors.png?raw=true"> </p>
 
 ## Installation
 - The following instructions are for using the **aivr** package locally.
